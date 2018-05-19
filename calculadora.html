@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Calculadora</title>
+    <style>
+        .grid-container {
+            display: grid;
+            width: 252px;
+            margin: auto;
+            grid-template-columns: 60px 60px 60px 60px;
+            grid-gap: 4px 4px;
+            border-radius: 5px;
+            background-color: #ddd;
+            padding: 5px;
+        }
+        .grid-container > button {
+            font-size: 20px;
+        }
+        #tela {
+            grid-column: 1/5;
+            height: 40px;
+            font-size: 20px;
+            text-align: right;
+        }
+        #clear{
+            background-color: orangered;
+            border-color: red;
+        }
+        .item0{
+            color:#444;
+            text-align: center;
+            grid-column: 1/5;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="grid-container">
+        <p class="item0">Calculadora</p>
+        <input id="tela" type="text" size="5" onkeypress="return false;" autofocus>
+        <button id="clear">X</button>
+        <button onclick="calcularRaizQuadrada()">&radic;</button>
+        <button onclick="fatorial()">!</button>
+        <button class="item0_4" onclick="apagar()">&larr;</button>
+        <button onclick="digitar(1)">1</button>
+        <button onclick="digitar(2)">2</button>
+        <button onclick="digitar(3)">3</button>
+        <button onclick="digitarOperador('*')">*</button>
+        <button onclick="digitar(4)">4</button>
+        <button onclick="digitar(5)">5</button>
+        <button onclick="digitar(6)">6</button>
+        <button onclick="digitarOperador('/')">/</button>
+        <button onclick="digitar(7)">7</button>
+        <button onclick="digitar(8)">8</button>
+        <button onclick="digitar(9)">9</button>
+        <button onclick="digitarOperador('+')">+</button>
+        <button onclick="valorAbsoluto()">|x|</button>
+        <button onclick="digitar(0)">0</button>
+        <button onclick="calcular()">=</button>
+        <button onclick="digitarOperador('-')">-</button>
+    </div>
+
+    <script>
+        var clear = document.getElementById("clear");
+        var tela = document.getElementById("tela");
+
+        var calculou = false;
+        var conta;
+
+        clear.onclick = function(){
+            tela.value = "";
+            tela.focus();
+        };
+
+        function digitar(n){
+            var aux = tela.value;
+
+            if(calculou){
+                aux = "";
+                tela.value = "";
+                calculou = false;
+            }
+
+            tela.value = aux + n;
+            tela.focus();
+        }
+
+        function digitarOperador(s){
+            var aux = tela.value;
+
+            tela.value = aux + " " + s + " ";
+            tela.focus(); 
+        }
+
+        document.getElementById("tela").addEventListener('keypress', function(e){
+            var k = e.charCode;
+            var n = String.fromCharCode(k);//Unicode convertido em numero
+
+            if(calculou){
+                tela.value = "";
+                calculou = false;
+            }
+
+            if(n == "+" || n == "-" || n == "/" || n == "*")
+                tela.value += " " + n + " ";
+            else
+                tela.value += n;
+			
+        });
+
+
+        function calcular(){
+            try{
+                var result = eval(tela.value);
+                conta = tela.value;
+                tela.value += " = " + result;
+                calculou = true;
+                tela.focus();
+            }catch(e){
+                tela.value += " = " + "Expressão mal formada";
+            }
+        }
+
+        function fatorial(){
+            var fat = 1;
+            var f = parseInt(tela.value);
+            
+            if(tela.value == ""){
+                tela.value = "";
+                tela.focus();
+                
+                return;
+            }
+
+            for(let i = 1; i <= f; i++){
+                fat *= i;
+            }
+
+            tela.value += " = " + fat;
+            calculou = true;
+            tela.focus();
+        }
+
+        function calcularRaizQuadrada(){
+            var r = Math.sqrt(parseInt(tela.value));
+            
+            if(r !== r){
+                tela.value = '';
+                tela.focus();
+                return;
+            }
+
+            var v = tela.value;
+
+            tela.value = '\u221A' + v + " = " + r;
+            calculou = true;
+            tela.focus();
+        }
+
+        function valorAbsoluto(){
+            var r = eval(conta);
+            if(tela.value == ''){
+                tela.value = '';
+                tela.focus();
+                return;
+            }
+            if(r < 0){
+                r *= -1;
+                tela.value = "|" + conta + "|" + " = " + r;
+            }else{
+                tela.value = "|" + conta + "|" + " = " + r;
+            }
+            tela.focus(); 
+        }
+
+        function apagar(){
+            var str = tela.value.split("");
+            var novaStr = "";
+
+            for(let i = 0; i < str.length - 1; i++)
+                novaStr += str[i];
+
+            tela.value = novaStr;
+            tela.focus();            
+        }
+    </script>
+</body>
+</html>
