@@ -87,7 +87,7 @@
             tela.value = aux + n;
             tela.focus();
         }
-
+	//adiciona o operador(+, -, *, /) e espaço entre o operador e o número
         function digitarOperador(s){
             var aux = tela.value;
 
@@ -97,7 +97,7 @@
 
         document.getElementById("tela").addEventListener('keypress', function(e){
             var k = e.charCode;
-            var n = String.fromCharCode(k);//Unicode convertido em numero
+            var n = String.fromCharCode(k);
 
             if(calculou){
                 tela.value = "";
@@ -111,7 +111,7 @@
 			
         });
 
-
+	//Calcula as expressões algébricas com o uso da função eval
         function calcular(){
             try{
                 var result = eval(tela.value);
@@ -123,7 +123,7 @@
                 tela.value += " = " + "Expressão mal formada";
             }
         }
-
+	//calcula o fatorial
         function fatorial(){
             var fat = 1;
             var f = parseInt(tela.value);
@@ -143,7 +143,7 @@
             calculou = true;
             tela.focus();
         }
-
+	//calcula a raiz quadrada
         function calcularRaizQuadrada(){
             var r = Math.sqrt(parseInt(tela.value));
             
@@ -159,7 +159,7 @@
             calculou = true;
             tela.focus();
         }
-
+	//calculo do valor absoluto e formatação
         function valorAbsoluto(){
             var r = eval(conta);
             if(tela.value == ''){
@@ -175,7 +175,7 @@
             }
             tela.focus(); 
         }
-
+	//limpa a tela quando clica no botão com vermelho x
         function apagar(){
             var str = tela.value.split("");
             var novaStr = "";
